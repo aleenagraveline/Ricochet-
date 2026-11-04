@@ -25,5 +25,25 @@ namespace Game
 				Input.GetAxisRaw(inputPrefix + "Vertical")
 				);
 		}
+
+		public string GetInputPrefix()
+        {
+			return inputPrefix;
+        }
+
+		public void SetInputPrefix(int id)
+        {
+			inputPrefix = "P" + id;
+        }
+
+		public void SetScore(int newScore)
+        {
+			score = newScore;
+        }
+
+		public int GetScore()
+        {
+			return score;
+        }
 	}
 }

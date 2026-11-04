@@ -1,0 +1,113 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class UIController : MonoBehaviour
+{
+    [SerializeField] private TextMeshProUGUI p1HealthText;
+    [SerializeField] private TextMeshProUGUI p1ScoreText;
+    [SerializeField] private TextMeshProUGUI p2HealthText;
+    [SerializeField] private TextMeshProUGUI p2ScoreText;
+    [SerializeField] private TextMeshProUGUI p3HealthText;
+    [SerializeField] private TextMeshProUGUI p3ScoreText;
+    [SerializeField] private TextMeshProUGUI p4HealthText;
+    [SerializeField] private TextMeshProUGUI p4ScoreText;
+
+    [SerializeField] private GameObject startScreen;
+    [SerializeField] private GameObject endScreen;
+    [SerializeField] private GameObject hud;
+    [SerializeField] private TextMeshProUGUI p1StatusText;
+    [SerializeField] private TextMeshProUGUI p2StatusText;
+    [SerializeField] private TextMeshProUGUI p3StatusText;
+    [SerializeField] private TextMeshProUGUI p4StatusText;
+
+    private void Awake()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        PlayerShip.OnTakeDamage += UpdateHealthText;
+        PlayerShip.OnIncreaseScore += UpdateScoreText;
+        StartManager.OnStartGame += DisplayHUD;
+        PlayerConnection.OnStatusChange += UpdateStartScreen;
+        EndManager.OnGameOver += Dispose;
+    }
+
+    public void Dispose()
+    {
+        PlayerShip.OnTakeDamage -= UpdateHealthText;
+        PlayerShip.OnIncreaseScore -= UpdateScoreText;
+        StartManager.OnStartGame -= DisplayHUD;
+        PlayerConnection.OnStatusChange -= UpdateStartScreen;
+        EndManager.OnGameOver -= Dispose;
+    }
+
+    public void UpdateHealthText(string playerPrefix, int newHealth)
+    {
+        if(playerPrefix.Equals("P1"))
+        {
+            p1HealthText.SetText("Health: {0}", newHealth);
+        }
+        else if(playerPrefix.Equals("P2"))
+        {
+            p2HealthText.SetText("Health: {0}", newHealth);
+        }
+        else if(playerPrefix.Equals("P3"))
+        {
+            p3HealthText.SetText("Health: {0}", newHealth);
+        }
+        else
+        {
+            p4HealthText.SetText("Health: {0}", newHealth);
+        }
+    }
+
+    public void UpdateScoreText(string playerPrefix, int newScore)
+    {
+        if (playerPrefix.Equals("P1"))
+        {
+            p1ScoreText.SetText("Score: {0}", newScore);
+        }
+        else if (playerPrefix.Equals("P2"))
+        {
+            p2ScoreText.SetText("Score: {0}", newScore);
+        }
+        else if (playerPrefix.Equals("P3"))
+        {
+            p3ScoreText.SetText("Score: {0}", newScore);
+        }
+        else
+        {
+            p4ScoreText.SetText("Score: {0}", newScore);
+        }
+    }
+
+    public void DisplayHUD()
+    {
+        hud.SetActive(true);
+        startScreen.SetActive(false);
+    }
+
+    public void UpdateStartScreen(string playerPrefix, string status)
+    {
+        if (playerPrefix.Equals("P1"))
+        {
+            p1StatusText.SetText(status);
+        }
+        else if (playerPrefix.Equals("P2"))
+        {
+            p2StatusText.SetText(status);
+        }
+        else if (playerPrefix.Equals("P3"))
+        {
+            p3StatusText.SetText(status);
+        }
+        else
+        {
+            p4StatusText.SetText(status);
+        }
+    }
+}
