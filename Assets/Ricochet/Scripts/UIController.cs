@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject startScreen;
     [SerializeField] private GameObject endScreen;
     [SerializeField] private GameObject hud;
+
     [SerializeField] private TextMeshProUGUI p1StatusText;
     [SerializeField] private TextMeshProUGUI p2StatusText;
     [SerializeField] private TextMeshProUGUI p3StatusText;
@@ -85,9 +86,13 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void DisplayHUD()
+    public void DisplayHUD(List<PlayerShip> players)
     {
         hud.SetActive(true);
+        for(int i=0; i<players.Count; i++)
+        {
+            players[i].GetHUDPanel().SetActive(true);
+        }
         startScreen.SetActive(false);
     }
 

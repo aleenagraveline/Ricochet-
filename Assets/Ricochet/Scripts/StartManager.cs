@@ -8,13 +8,13 @@ public class StartManager : MonoBehaviour
     private int minPlayers = 2;
     [SerializeField] private List<PlayerShip> players = new List<PlayerShip>();
     [SerializeField] private EndManager end;
-    public static event Action OnStartGame;
+    public static event Action<List<PlayerShip>> OnStartGame;
 
     public void StartGame()
     {
         if (players.Count >= minPlayers && checkReadyPlayers())
         { 
-            OnStartGame?.Invoke();
+            OnStartGame?.Invoke(players);
             end.gameObject.SetActive(true);
         }
     }

@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5107647949942764984
 Transform:
   m_ObjectHideFlags: 0
@@ -100,8 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 1
   speed: 10
-  health: 0
+  health: 3
   bullet: {fileID: 1285059917289140029, guid: 8dee446a72b91544d96cc87d4f790307, type: 3}
+  hudPanel: {fileID: 0}
 --- !u!58 &1785691588784074571
 CircleCollider2D:
   m_ObjectHideFlags: 0

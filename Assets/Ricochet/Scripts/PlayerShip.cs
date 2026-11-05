@@ -10,6 +10,8 @@ public class PlayerShip : Player
 	[SerializeField] private int health;
 
 	[SerializeField] private PlayerProjectile bullet;
+	[SerializeField] private GameObject hudPanel;
+
 	private int startSize = 8;
 	private List<PlayerProjectile> bulletPool = new List<PlayerProjectile>();
 
@@ -18,15 +20,27 @@ public class PlayerShip : Player
 	public static event Action<PlayerShip> OnShipDeath;
 
 	private bool isDead = false;
+	private bool canShoot = false;
 
 	// Start is called before the first frame update
 	void Awake()
 	{
+		Initialize();
 		for (int i = 0; i < startSize; i++)
 		{
 			AddBullet();
 		}
 	}
+
+    public void Initialize()
+    {
+		StartManager.OnStartGame += EnableShooting;
+    }
+
+	public void Dispose()
+    {
+		StartManager.OnStartGame -= EnableShooting;
+    }
 
     void Start()
     {
@@ -41,7 +55,7 @@ public class PlayerShip : Player
 	{
 		Vector2 playerInput = new Vector2(Input.GetAxisRaw(GetInputPrefix() + "Horizontal"), Input.GetAxisRaw(GetInputPrefix() + "Vertical"));
 
-		if (!isDead)
+		if (canShoot && !isDead)
         {
 			transform.position += Vector3.right * playerInput.x * speed * Time.deltaTime;
 
@@ -57,6 +71,11 @@ public class PlayerShip : Player
 		}
 	}
 
+	public void EnableShooting(List<PlayerShip> players)
+    {
+		canShoot = true;
+    }
+
 	public void TakeDamage(int amount)
 	{
 		health -= amount;
@@ -68,6 +87,7 @@ public class PlayerShip : Player
 		OnShipDeath?.Invoke(this);
 		gameObject.SetActive(false);
 		isDead = true;
+		Dispose();
     }
 
 	public void AddToScore(int amount)
@@ -105,4 +125,9 @@ public class PlayerShip : Player
 		newBullet.SetOwner(owner);
 		return newBullet;
 	}
+
+	public GameObject GetHUDPanel()
+    {
+		return hudPanel;
+    }
 }

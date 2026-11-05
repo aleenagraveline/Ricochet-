@@ -56,16 +56,13 @@ public class PlayerConnection : Player
                     ship.gameObject.SetActive(true);
                     break;
                 case PlayerStatus.Ready:
-                    if (GetInputPrefix().Equals("P1"))
-                    {
-                        startManager.StartGame();
-                    }
+                    startManager.StartGame();
                     break;
             }
         }
     }
 
-    public void SetGameStarted()
+    public void SetGameStarted(List<PlayerShip> players)
     {
         gameStarted = true;
     }
