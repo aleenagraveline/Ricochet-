@@ -46,4 +46,9 @@ public class StartManager : MonoBehaviour
     {
         return players.Count;
     }
+
+    public List<PlayerShip> GetPlayers()
+    {
+        return players;
+    }
 }

@@ -8,7 +8,7 @@ public class PlayerConnection : Player
 {
     [SerializeField] private StartManager startManager;
 
-    [SerializeField] private PlayerShip ship;
+    private PlayerShip ship;
     private bool gameStarted = false;
     private enum PlayerStatus
     {
@@ -24,6 +24,7 @@ public class PlayerConnection : Player
     {
         Initialize();
         status = PlayerStatus.NotConnected;
+        ship = GetComponent<PlayerShip>();
     }
 
     public void Initialize()
@@ -53,7 +54,7 @@ public class PlayerConnection : Player
                 case PlayerStatus.NotReady:
                     status = PlayerStatus.Ready;
                     OnStatusChange?.Invoke(GetInputPrefix(), "Ready");
-                    ship.gameObject.SetActive(true);
+                    GetComponent<SpriteRenderer>().enabled = true;
                     break;
                 case PlayerStatus.Ready:
                     startManager.StartGame();

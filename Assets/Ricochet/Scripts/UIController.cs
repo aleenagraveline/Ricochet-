@@ -23,6 +23,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI p3StatusText;
     [SerializeField] private TextMeshProUGUI p4StatusText;
 
+    [SerializeField] private TextMeshProUGUI finalScores;
+    [SerializeField] private TextMeshProUGUI winner;
+    
+
+
     private void Awake()
     {
         Initialize();
@@ -34,7 +39,7 @@ public class UIController : MonoBehaviour
         PlayerShip.OnIncreaseScore += UpdateScoreText;
         StartManager.OnStartGame += DisplayHUD;
         PlayerConnection.OnStatusChange += UpdateStartScreen;
-        EndManager.OnGameOver += Dispose;
+        EndManager.OnGameOver += DisplayEndScreen;
     }
 
     public void Dispose()
@@ -113,6 +118,21 @@ public class UIController : MonoBehaviour
         else
         {
             p4StatusText.SetText(status);
+        }
+    }
+
+    public void DisplayEndScreen(List<PlayerShip> players)
+    {
+        hud.SetActive(false);
+        endScreen.SetActive(true);
+        List<int> scores = new List<int>();
+        finalScores.SetText("Final Scores: ");
+        foreach (PlayerShip player in players)
+        {
+            scores.Add(player.GetScore());
+            scores.Sort();
+            scores.Reverse();
+            //finalScores.SetText(finalScores.text + "\nPlayer: " + player.GetPlayerID() + " ")
         }
     }
 }

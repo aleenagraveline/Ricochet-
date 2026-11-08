@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class EndManager : MonoBehaviour
 {
     [SerializeField] private List<PlayerShip> deadShips = new List<PlayerShip>();
-    public static event Action OnGameOver;
+    public static event Action<List<PlayerShip>> OnGameOver;
     [SerializeField] private StartManager start;
 
     private void Awake()
@@ -28,9 +29,14 @@ public class EndManager : MonoBehaviour
     {
         if(deadShips.Count >= start.GetNumPlayers() - 1)
         {
-            OnGameOver?.Invoke();
+            OnGameOver?.Invoke(start.GetPlayers());
             Dispose();
             Debug.Log("Game Over");
+        }
+
+        if(Input.GetButtonDown("P1Button1") || Input.GetButtonDown("P2Button1") || Input.GetButtonDown("P3Button1") || Input.GetButtonDown("P4Button1"))
+        {
+            SceneManager.LoadScene("Ricochet!");
         }
     }
 

@@ -22,6 +22,9 @@ public class PlayerShip : Player
 	private bool isDead = false;
 	private bool canShoot = false;
 
+	private float leftLimit = -9.9f;
+	private float rightLimit = 9.9f;
+
 	// Start is called before the first frame update
 	void Awake()
 	{
@@ -58,6 +61,14 @@ public class PlayerShip : Player
 		if (canShoot && !isDead)
         {
 			transform.position += Vector3.right * playerInput.x * speed * Time.deltaTime;
+			if(transform.position.x <= leftLimit)
+            {
+				transform.position = new Vector3(rightLimit, transform.position.y, transform.position.z);
+            }
+			else if(transform.position.x >= rightLimit)
+            {
+				transform.position = new Vector3(leftLimit, transform.position.y, transform.position.z);
+            }
 
 			if (Input.GetButtonDown(GetInputPrefix() + "Button2"))
 			{
@@ -69,6 +80,11 @@ public class PlayerShip : Player
 				Die();
 			}
 		}
+
+		if(Input.GetKeyDown(KeyCode.Space))
+        {
+			Application.Quit();
+        }
 	}
 
 	public void EnableShooting(List<PlayerShip> players)
